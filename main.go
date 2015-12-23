@@ -11,7 +11,7 @@ import (
 	"github.com/codegangsta/cli"
 )
 
-type Item struct {
+type Bookmark struct {
 	Title         string `xml:"title"`
 	URL           string `xml:"link"`
 	User          string `xml:"creator"`
@@ -19,7 +19,7 @@ type Item struct {
 }
 
 type Entries struct {
-	Entries []Item `xml:"item"`
+	Entries []Bookmark `xml:"item"`
 }
 
 func main() {
