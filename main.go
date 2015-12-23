@@ -6,6 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
+
+	"github.com/codegangsta/cli"
 )
 
 type Item struct {
@@ -19,13 +22,25 @@ type Entries struct {
 }
 
 func main() {
-	user := "samurai20000"
-	url := buildURL(user)
-	feed := getRSSFeed(url)
-	results := parseItems(feed)
-	for _, entry := range results.Entries {
-		fmt.Println(entry)
+	app := cli.NewApp()
+	app.Name = "hbfav"
+	app.Usage = "hbfav username"
+	app.Action = func(c *cli.Context) {
+		username := ""
+		if len(c.Args()) > 0 {
+			username = c.Args()[0]
+		} else {
+			fmt.Println(app.Usage)
+			return
+		}
+		url := buildURL(username)
+		feed := getRSSFeed(url)
+		results := parseItems(feed)
+		for _, entry := range results.Entries {
+			fmt.Println(entry)
+		}
 	}
+	app.Run(os.Args)
 }
 
 func buildURL(user string) string {
