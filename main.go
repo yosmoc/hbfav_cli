@@ -26,11 +26,6 @@ func main() {
 	for _, entry := range results.Entries {
 		fmt.Println(entry)
 	}
-	// contents, err := ioutil.ReadAll(results)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// fmt.Printf("%s\n", string(contents))
 }
 
 func buildURL(user string) string {
