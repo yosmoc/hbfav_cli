@@ -12,9 +12,10 @@ import (
 )
 
 type Item struct {
-	Title string `xml:"title"`
-	URL   string `xml:"link"`
-	User  string `xml:"creator"`
+	Title         string `xml:"title"`
+	URL           string `xml:"link"`
+	User          string `xml:"creator"`
+	Bookmarkcount int    `xml:"bookmarkcount"`
 }
 
 type Entries struct {
