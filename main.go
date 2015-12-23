@@ -37,9 +37,7 @@ func main() {
 		url := buildURL(username)
 		feed := getRSSFeed(url)
 		results := parseItems(feed)
-		for _, entry := range results.Entries {
-			fmt.Println(entry)
-		}
+		showResult(url, results)
 	}
 	app.Run(os.Args)
 }
@@ -72,4 +70,15 @@ func parseItems(feed []byte) Entries {
 	}
 
 	return entries
+}
+
+func printRSSFeedURL(url string) {
+	fmt.Printf("Feed URL: %s\n\n", url)
+}
+
+func showResult(url string, results Entries) {
+	printRSSFeedURL(url)
+	for _, entry := range results.Entries {
+		fmt.Println(entry)
+	}
 }
