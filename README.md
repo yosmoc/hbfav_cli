@@ -4,6 +4,10 @@
 
 ## Usage
 
+```sh:
+$ hbfav username
+```
+
 ## License
 - MIT
 
