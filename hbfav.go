@@ -30,6 +30,8 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "hbfav"
 	app.Usage = "hbfav username"
+	app.Version = "0.0.1"
+
 	app.Action = func(c *cli.Context) {
 		username := ""
 		if len(c.Args()) > 0 {
