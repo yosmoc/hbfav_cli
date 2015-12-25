@@ -32,6 +32,16 @@ func main() {
 	app.Usage = "hbfav username"
 	app.Version = "0.0.1"
 
+	var bookmarkNumber int
+	app.Flags = []cli.Flag{
+		cli.IntFlag{
+			Name:        "number, n",
+			Value:       -1,
+			Usage:       "the number of bookmarks",
+			Destination: &bookmarkNumber,
+		},
+	}
+
 	app.Action = func(c *cli.Context) {
 		username := ""
 		if len(c.Args()) > 0 {
@@ -43,7 +53,7 @@ func main() {
 		url := buildURL(username)
 		feed := getRSSFeed(url)
 		results := parseItems(feed)
-		showResult(url, results)
+		showResult(url, results, bookmarkNumber)
 	}
 	app.Run(os.Args)
 }
@@ -126,7 +136,7 @@ func maxBookmarkcountWidth(entries Entries) int {
 	return width
 }
 
-func showResult(url string, results Entries) {
+func showResult(url string, results Entries, bookmarkNumber int) {
 	printRSSFeedURL(url)
 
 	titleWidth := maxTitleWidth(results)
@@ -150,7 +160,17 @@ func showResult(url string, results Entries) {
 
 	fmt.Println(strings.Repeat("-", titleWidth+urlWidth+userWidth+bookmarkcountWidth+18))
 
-	for _, e := range results.Entries {
+	var n int
+	if bookmarkNumber == -1 || bookmarkNumber >= len(results.Entries) {
+		n = len(results.Entries)
+	} else {
+		n = bookmarkNumber
+	}
+
+	for i, e := range results.Entries {
+		if i > n-1 {
+			return
+		}
 		fmt.Fprintf(color.Output, " %s | %s | %s | %s \n",
 			color.GreenString(runewidth.FillRight(e.Title, titleWidth)),
 			fmt.Sprintf(urlFmt, e.URL),
