@@ -92,9 +92,13 @@ func printRSSFeedURL(url string) {
 	fmt.Printf("Feed URL: %s\n\n", url)
 }
 
-func maxTitleWidth(entries Entries) int {
+func maxTitleWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for _, bookmark := range entries.Entries {
+	for i, bookmark := range entries.Entries {
+		if i > itemNumber-1 {
+			return width
+		}
+
 		count := runewidth.StringWidth(bookmark.Title)
 		if count > width {
 			width = count
@@ -103,9 +107,13 @@ func maxTitleWidth(entries Entries) int {
 	return width
 }
 
-func maxURLWidth(entries Entries) int {
+func maxURLWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for _, bookmark := range entries.Entries {
+	for i, bookmark := range entries.Entries {
+		if i > itemNumber-1 {
+			return width
+		}
+
 		count := runewidth.StringWidth(bookmark.URL)
 		if count > width {
 			width = count
@@ -114,9 +122,13 @@ func maxURLWidth(entries Entries) int {
 	return width
 }
 
-func maxUserWidth(entries Entries) int {
+func maxUserWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for _, bookmark := range entries.Entries {
+	for i, bookmark := range entries.Entries {
+		if i > itemNumber-1 {
+			return width
+		}
+
 		count := runewidth.StringWidth(bookmark.User)
 		if count > width {
 			width = count
@@ -125,9 +137,13 @@ func maxUserWidth(entries Entries) int {
 	return width
 }
 
-func maxBookmarkcountWidth(entries Entries) int {
+func maxBookmarkcountWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for _, bookmark := range entries.Entries {
+	for i, bookmark := range entries.Entries {
+		if i > itemNumber-1 {
+			return width
+		}
+
 		count := runewidth.StringWidth(string(bookmark.Bookmarkcount))
 		if count > width {
 			width = count
@@ -139,16 +155,23 @@ func maxBookmarkcountWidth(entries Entries) int {
 func showResult(url string, results Entries, bookmarkNumber int) {
 	printRSSFeedURL(url)
 
-	titleWidth := maxTitleWidth(results)
+	var n int
+	if bookmarkNumber == -1 || bookmarkNumber >= len(results.Entries) {
+		n = len(results.Entries)
+	} else {
+		n = bookmarkNumber
+	}
+
+	titleWidth := maxTitleWidth(results, n)
 	titleFmt := fmt.Sprintf("%%-%ds", titleWidth)
 
-	urlWidth := maxURLWidth(results)
+	urlWidth := maxURLWidth(results, n)
 	urlFmt := fmt.Sprintf("%%-%ds", urlWidth)
 
-	userWidth := maxUserWidth(results)
+	userWidth := maxUserWidth(results, n)
 	userFmt := fmt.Sprintf("%%-%ds", userWidth)
 
-	bookmarkcountWidth := maxBookmarkcountWidth(results)
+	bookmarkcountWidth := maxBookmarkcountWidth(results, n)
 	bookmarkcountFmt := fmt.Sprintf("%%-%ds", bookmarkcountWidth)
 
 	fmt.Fprintf(color.Output, " %s | %s | %s | %s | \n",
@@ -159,13 +182,6 @@ func showResult(url string, results Entries, bookmarkNumber int) {
 	)
 
 	fmt.Println(strings.Repeat("-", titleWidth+urlWidth+userWidth+bookmarkcountWidth+18))
-
-	var n int
-	if bookmarkNumber == -1 || bookmarkNumber >= len(results.Entries) {
-		n = len(results.Entries)
-	} else {
-		n = bookmarkNumber
-	}
 
 	for i, e := range results.Entries {
 		if i > n-1 {
