@@ -152,14 +152,14 @@ func maxBookmarkcountWidth(entries Entries, itemNumber int) int {
 	return width
 }
 
-func showResult(url string, results Entries, bookmarkNumber int) {
+func showResult(url string, results Entries, itemNumber int) {
 	printRSSFeedURL(url)
 
 	var n int
-	if bookmarkNumber == -1 || bookmarkNumber >= len(results.Entries) {
+	if itemNumber == -1 || itemNumber >= len(results.Entries) {
 		n = len(results.Entries)
 	} else {
-		n = bookmarkNumber
+		n = itemNumber
 	}
 
 	titleWidth := maxTitleWidth(results, n)
