@@ -23,7 +23,7 @@ type Bookmark struct {
 }
 
 type Entries struct {
-	Entries []Bookmark `xml:"item"`
+	Bookmarks []Bookmark `xml:"item"`
 }
 
 func main() {
@@ -94,7 +94,7 @@ func printRSSFeedURL(url string) {
 
 func maxTitleWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for i, bookmark := range entries.Entries {
+	for i, bookmark := range entries.Bookmarks {
 		if i > itemNumber-1 {
 			return width
 		}
@@ -109,7 +109,7 @@ func maxTitleWidth(entries Entries, itemNumber int) int {
 
 func maxURLWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for i, bookmark := range entries.Entries {
+	for i, bookmark := range entries.Bookmarks {
 		if i > itemNumber-1 {
 			return width
 		}
@@ -124,7 +124,7 @@ func maxURLWidth(entries Entries, itemNumber int) int {
 
 func maxUserWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for i, bookmark := range entries.Entries {
+	for i, bookmark := range entries.Bookmarks {
 		if i > itemNumber-1 {
 			return width
 		}
@@ -139,7 +139,7 @@ func maxUserWidth(entries Entries, itemNumber int) int {
 
 func maxBookmarkcountWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for i, bookmark := range entries.Entries {
+	for i, bookmark := range entries.Bookmarks {
 		if i > itemNumber-1 {
 			return width
 		}
@@ -156,8 +156,8 @@ func showResult(url string, results Entries, itemNumber int) {
 	printRSSFeedURL(url)
 
 	var n int
-	if itemNumber == -1 || itemNumber >= len(results.Entries) {
-		n = len(results.Entries)
+	if itemNumber == -1 || itemNumber >= len(results.Bookmarks) {
+		n = len(results.Bookmarks)
 	} else {
 		n = itemNumber
 	}
@@ -183,7 +183,7 @@ func showResult(url string, results Entries, itemNumber int) {
 
 	fmt.Println(strings.Repeat("-", titleWidth+urlWidth+userWidth+bookmarkcountWidth+18))
 
-	for i, e := range results.Entries {
+	for i, e := range results.Bookmarks {
 		if i > n-1 {
 			return
 		}
