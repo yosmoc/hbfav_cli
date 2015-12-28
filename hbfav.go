@@ -94,12 +94,8 @@ func printRSSFeedURL(url string) {
 
 func maxTitleWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for i, bookmark := range entries.Bookmarks {
-		if i > itemNumber-1 {
-			return width
-		}
-
-		count := runewidth.StringWidth(bookmark.Title)
+	for i := 0; i < itemNumber; i++ {
+		count := runewidth.StringWidth(entries.Bookmarks[i].Title)
 		if count > width {
 			width = count
 		}
@@ -109,12 +105,8 @@ func maxTitleWidth(entries Entries, itemNumber int) int {
 
 func maxURLWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for i, bookmark := range entries.Bookmarks {
-		if i > itemNumber-1 {
-			return width
-		}
-
-		count := runewidth.StringWidth(bookmark.URL)
+	for i := 0; i < itemNumber; i++ {
+		count := runewidth.StringWidth(entries.Bookmarks[i].URL)
 		if count > width {
 			width = count
 		}
@@ -124,12 +116,8 @@ func maxURLWidth(entries Entries, itemNumber int) int {
 
 func maxUserWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for i, bookmark := range entries.Bookmarks {
-		if i > itemNumber-1 {
-			return width
-		}
-
-		count := runewidth.StringWidth(bookmark.User)
+	for i := 0; i < itemNumber; i++ {
+		count := runewidth.StringWidth(entries.Bookmarks[i].User)
 		if count > width {
 			width = count
 		}
@@ -139,12 +127,8 @@ func maxUserWidth(entries Entries, itemNumber int) int {
 
 func maxBookmarkcountWidth(entries Entries, itemNumber int) int {
 	width := 0
-	for i, bookmark := range entries.Bookmarks {
-		if i > itemNumber-1 {
-			return width
-		}
-
-		count := runewidth.StringWidth(string(bookmark.Bookmarkcount))
+	for i := 0; i < itemNumber; i++ {
+		count := runewidth.StringWidth(string(entries.Bookmarks[i].Bookmarkcount))
 		if count > width {
 			width = count
 		}
