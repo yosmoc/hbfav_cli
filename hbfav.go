@@ -51,7 +51,12 @@ func main() {
 			return
 		}
 		url := buildURL(username)
-		feed := getRSSFeed(url)
+		feed, err := getRSSFeed(url)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
 		results := parseItems(feed)
 		showResult(url, results, bookmarkNumber)
 	}
@@ -62,19 +67,25 @@ func buildURL(user string) string {
 	return fmt.Sprintf("http://b.hatena.ne.jp/%s/favorite.rss", url.QueryEscape(user))
 }
 
-func getRSSFeed(url string) []byte {
+func getRSSFeed(url string) ([]byte, error) {
 	res, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
+		return nil, err
+	}
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("status code is %v", res.StatusCode)
 	}
 	defer res.Body.Close()
 
 	feed, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
+		return nil, err
 	}
 
-	return feed
+	return feed, err
 }
 
 func parseItems(feed []byte) Entries {
