@@ -158,11 +158,11 @@ func showResult(url string, results Entries, itemNumber int) {
 	bookmarkcountWidth := maxBookmarkcountWidth(results, n)
 	bookmarkcountFmt := fmt.Sprintf("%%-%ds", bookmarkcountWidth)
 
-	fmt.Fprintf(color.Output, " %s | %s | %s | %s | \n",
-		color.BlueString(titleFmt, "Title"),
-		color.CyanString(urlFmt, "URL"),
+	fmt.Fprintf(color.Output, " %s | %s | %s | %s \n",
+		color.GreenString(titleFmt, "Title"),
+		fmt.Sprintf(urlFmt, "URL"),
 		fmt.Sprintf(userFmt, "User"),
-		fmt.Sprintf(bookmarkcountFmt, "Bookmark"),
+		color.CyanString(bookmarkcountFmt, "Bookmark"),
 	)
 
 	fmt.Println(strings.Repeat("-", titleWidth+urlWidth+userWidth+bookmarkcountWidth+18))
